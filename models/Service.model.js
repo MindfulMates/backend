@@ -15,11 +15,11 @@ const serviceSchema = new Schema(
         required: [true, "Place is required."],
         },
       date: {
-        type: String,
+        type: Date,
         required: [true, "Date is required."],
         },
       price: {
-        type: number,
+        type: Number,
         required: [true, "Price is required."],
         },
       name: {

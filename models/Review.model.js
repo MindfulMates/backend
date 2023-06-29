@@ -4,7 +4,7 @@ const { Schema, model } = require("mongoose");
 const reviewSchema = new Schema(
   {
     review: {
-      type: numbers,
+      type: Number,
       required: [true, "Review is required."],
     },
     descritpion: {

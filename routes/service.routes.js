@@ -4,6 +4,9 @@ const router = require("express").Router();
 const Service = require("../models/Service.model");
 const Review = require("../models/Review.model");
 
+const User = require("../models/User.model"); 
+
+
 
 //  POST /api/services  -  Creates a new service
 router.post("/users", (req, res, next) => {
@@ -33,7 +36,7 @@ router.post("/users", (req, res, next) => {
 // GET /api/services -  Retrieves all of the services
 router.get('/users', (req, res, next) => {
     Service.find()
-        .populate("reviews")
+        .populate("reviews user")
         .then(response => {
             res.json(response)
         })
@@ -58,7 +61,7 @@ router.get('/services/:serviceId', (req, res, next) => {
 
 
     Service.findById(serviceId)
-        .populate('reviews')
+        .populate('reviews user')
         .then(service => res.json(service))
         .catch(err => {
             console.log("error getting details of a service", err);

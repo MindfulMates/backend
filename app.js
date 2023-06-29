@@ -19,13 +19,15 @@ const indexRoutes = require("./routes/index.routes");
 app.use("/api", indexRoutes);
 
 const authRoutes = require("./routes/auth.routes");
+const { isAuthenticated } = require("./middleware/jwt.middleware");
 app.use("/auth", authRoutes);
 
-app.use("/api", isAuthenticated, require("./routes/service.route"));
-app.use("/api", isAuthenticated, require("./routes/review.route"));
-app.use("/api", isAuthenticated, require("./routes/user.route"));
+app.use("/api", isAuthenticated, require("./routes/service.routes"));
+app.use("/api", isAuthenticated, require("./routes/review.routes"));
+app.use("/api", isAuthenticated, require("./routes/user.routes"));
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
 
 module.exports = app;
+

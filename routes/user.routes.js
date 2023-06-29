@@ -3,12 +3,12 @@ const router = require("express").Router();
 
 const Service = require("../models/Service.model");
 const Review = require("../models/Review.model");
-const User = require("../models/User.model");
+const User = require("../models/User.model"); // we still need to delete later
 
 // GET /api/users -  Retrieves all of the users
 router.get('/users', (req, res, next) => {
     User.find()
-        .populate("reviews", "services")
+        .populate("reviews services")
         .then(response => {
             res.json(response)
         })
@@ -33,7 +33,7 @@ router.get('/users/:userId', (req, res, next) => {
 
 
     User.findById(userId)
-        .populate('reviews', 'services')
+        .populate('reviews services')
         .then(user => res.json(user))
         .catch(err => {
             console.log("error getting details of a user", err);
@@ -80,7 +80,7 @@ router.delete('/users/:userId', (req, res, next) => {
 
     User.findByIdAndRemove(userId)
         .then(deletedUser => {
-            return Review.deleteMany({ _id: { $in: deletedUser.reviews } }); // delete all reviews assigned to that user
+            return Review.deleteMany({ _id: { $in: deletedUser.reviews } });// delete all reviews assigned to that user
         })
         .then(() => res.json({ message: `User with id ${userId} & all associated reviews were removed successfully.` }))
         .catch(err => {
