@@ -5,13 +5,14 @@ const Service = require("../models/Service.model");
 const Review = require("../models/Review.model");
 
 const User = require("../models/User.model"); 
+const { isAuthenticated } = require("../middleware/jwt.middleware");
 
 
 
-//  POST /api/services  -  Creates a new service
-router.post("/users", (req, res, next) => {
+//  POST /api/service  -  Creates a new service
+router.post("/service", isAuthenticated, (req, res, next) => {
     const { title, description, place, date, price, name, email } = req.body;
-
+console.log(req.payload)
     const newService = {
         title: title,
         description: description,
@@ -22,8 +23,10 @@ router.post("/users", (req, res, next) => {
         email: email
     }
 
-    Service.create(newService)
-    .then(response => res.status(201).json(response))
+    Service.create(newService).then((createdService) =>{
+        User.findByIdAndUpdate({_id: req.payload._id}, {$push: {service: createdService._id}}, {new: true})
+        .then(response => res.status(201).json(response))
+    })
     .catch(err => {
         console.log("error creating a new service", err);
         res.status(500).json({

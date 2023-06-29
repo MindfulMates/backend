@@ -2,6 +2,7 @@ const router = require("express").Router();
 // const mongoose = require("mongoose");
 
 const Review = require("../models/Review.model");
+const User = require("../models/User.model");
 
 
 
@@ -16,14 +17,19 @@ router.post("/review", (req, res, next) => {
     }
 
     Review.create(newReview)
-    .then(response => res.status(201).json(response))
-    .catch(err => {
-        console.log("error creating a new review", err);
-        res.status(500).json({
-            message: "error creating a new review",
-            error: err
-        });
-    })
+
+        .then(createdReview => {
+            User.findByIdAndUpdate({ _id: req.payload._id }, { $push: { review: createdReview._id } }, { new: true }).then((response) => {
+                res.status(201).json(response)
+            })
+        })
+        .catch(err => {
+            console.log("error creating a new review", err);
+            res.status(500).json({
+                message: "error creating a new review",
+                error: err
+            });
+        })
 });
 
 // GET /api/reviews -  Retrieves all of the reviews
@@ -43,7 +49,7 @@ router.get('/reviews', (req, res, next) => {
 
 //  GET /api/reviews/:reviewId  -  Get details of a specific review by id
 router.get('/reviews/:reviewId', (req, res, next) => {
-    
+
     const { reviewId } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(reviewId)) {

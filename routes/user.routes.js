@@ -1,5 +1,5 @@
 const router = require("express").Router();
-// const mongoose = require("mongoose");
+const mongoose = require("mongoose");
 
 const Service = require("../models/Service.model");
 const Review = require("../models/Review.model");
@@ -23,7 +23,7 @@ router.get('/users', (req, res, next) => {
 
 //  GET /api/users/:userId  -  Get details of a specific users by id
 router.get('/users/:userId', (req, res, next) => {
-    
+
     const { userId } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(userId)) {
@@ -59,38 +59,35 @@ router.put('/users/:userId', (req, res, next) => {
     }
 
     User.findByIdAndUpdate(userId, newDetails, { new: true })
-    .then((updatedUser) => res.json(updatedUser))
-    .catch(err => {
-        console.log("error updating user", err);
-        res.status(500).json({
-            message: "error updating user",
-            error: err
-        });
-    })
-});
-
-// DELETE /api/users/:userId  -  Delete a specific user by id
-router.delete('/users/:userId', (req, res, next) => {
-    const { userId } = req.params;
-
-    if (!mongoose.Types.ObjectId.isValid(userId)) {
-        res.status(400).json({ message: 'Specified id is not valid' });
-        return;
-    }
-
-    User.findByIdAndRemove(userId)
-        .then(deletedUser => {
-            return Review.deleteMany({ _id: { $in: deletedUser.reviews } });// delete all reviews assigned to that user
-        })
-        .then(() => res.json({ message: `User with id ${userId} & all associated reviews were removed successfully.` }))
+        .then((updatedUser) => res.json(updatedUser))
         .catch(err => {
-            console.log("error deleting user", err);
+            console.log("error updating user", err);
             res.status(500).json({
-                message: "error deleting user",
+                message: "error updating user",
                 error: err
             });
         })
 });
+
+
+router.delete('/users/:userId', async (req, res) => { //same route as above but with async await AKA cleaner and better :)
+    try {
+        const { userId } = req.params
+        const user = await User.findById(userId)
+
+        await Review.deleteMany({ _id: { $in: user.review } })
+        await Service.deleteMany({_id: { $in: user.service} })
+        await User.findByIdAndDelete(userId)
+
+        return res.status(200).json({msg: "all deleted :)"})
+
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json(error)
+    }
+
+
+})
 
 
 module.exports = router;

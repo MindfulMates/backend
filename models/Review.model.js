@@ -7,7 +7,7 @@ const reviewSchema = new Schema(
       type: Number,
       required: [true, "Review is required."],
     },
-    descritpion: {
+    description: {
       type: String,
       required: [true, "Description is required."],
     },
