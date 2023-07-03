@@ -18,6 +18,10 @@ const serviceSchema = new Schema(
         type: Date,
         required: [true, "Date is required."],
         },
+        category:{
+          type: String,
+          enum: ["Yoga", "Meditation", "Massage", "SoundHealing", "Other"]
+        },
       price: {
         type: Number,
         required: [true, "Price is required."],

@@ -6,6 +6,8 @@ const reviewSchema = new Schema(
     review: {
       type: Number,
       required: [true, "Review is required."],
+      min: 1,
+      max: 10
     },
     description: {
       type: String,
