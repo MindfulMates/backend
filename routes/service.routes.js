@@ -15,7 +15,7 @@ const { isAuthenticated } = require("../middleware/jwt.middleware");
 //     const filterOptions = {
 //         category: req.headers.category 
 //     }
-//     Service.find(filterOptions).sort({createdAt: -1}).then((services) => {
+//     .then((services) => {
 //        return  res.status(200).json(services)
 //     }).catch((error) => {
 //         console.log(error)
@@ -53,7 +53,10 @@ console.log(req.payload)
 
 // GET /api/services -  Retrieves all of the services
 router.get('/services', (req, res, next) => {
-    Service.find()
+    // const filterOptions = {
+    //             category: req.headers.category}
+    // pass this one later to Service.find(filterOptions)
+    Service.find().sort({createdAt: -1})
         // .populate("user")
         .then(response => {
             res.json(response)
