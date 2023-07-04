@@ -1,5 +1,5 @@
 const router = require("express").Router();
-// const mongoose = require("mongoose");
+const mongoose = require("mongoose");
 
 const Service = require("../models/Service.model");
 const Review = require("../models/Review.model");
@@ -27,7 +27,7 @@ router.get("/service", (req, res) => {
 
 //  POST /api/service  -  Creates a new service
 router.post("/service", isAuthenticated, (req, res, next) => {
-    const { title, description, place, date, price, name, email } = req.body;
+    const { title, description, place, date, price, name, email, category } = req.body;
 console.log(req.payload)
     const newService = {
         title: title,
@@ -36,7 +36,8 @@ console.log(req.payload)
         date: date,
         price: price, 
         name: name,
-        email: email
+        email: email,
+        category: category
     }
 
     Service.create(newService).then((createdService) =>{
@@ -55,7 +56,7 @@ console.log(req.payload)
 // GET /api/services -  Retrieves all of the services
 router.get('/users', (req, res, next) => {
     Service.find()
-        .populate("reviews user")
+        // .populate("user")
         .then(response => {
             res.json(response)
         })
@@ -80,7 +81,7 @@ router.get('/services/:serviceId', (req, res, next) => {
 
 
     Service.findById(serviceId)
-        .populate('reviews user')
+        // .populate('user')
         .then(service => res.json(service))
         .catch(err => {
             console.log("error getting details of a service", err);
@@ -107,7 +108,8 @@ router.put('/services/:serviceId', (req, res, next) => {
         date: req.body.date,
         price: req.body.price, 
         name: req.body.name,
-        email: req.body.email
+        email: req.body.email,
+        category: req.body.category,
     }
 
     Service.findByIdAndUpdate(serviceId, newDetails, { new: true })
