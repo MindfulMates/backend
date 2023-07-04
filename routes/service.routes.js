@@ -10,23 +10,21 @@ const { isAuthenticated } = require("../middleware/jwt.middleware");
 
 
 
-router.get("/service", (req, res) => {
+// router.get("/services", (req, res) => {
+//     // finish this functionality
+//     const filterOptions = {
+//         category: req.headers.category 
+//     }
+//     Service.find(filterOptions).sort({createdAt: -1}).then((services) => {
+//        return  res.status(200).json(services)
+//     }).catch((error) => {
+//         console.log(error)
+//       return   res.status(500).json(error)
+//     })
+// })
 
-    //finish this functionality
-    const filterOptions = {
-        category: req.headers.category 
-    }
-
-    Service.find(filterOptions).sort({createdAt: -1}).then((services) => {
-       return  res.status(200).json(services)
-    }).catch((error) => {
-        console.log(error)
-      return   res.status(500).json(error)
-    })
-})
-
-//  POST /api/service  -  Creates a new service
-router.post("/service", isAuthenticated, (req, res, next) => {
+//  POST /api/newservice  -  Creates a new service
+router.post("/newservice", isAuthenticated, (req, res, next) => {
     const { title, description, place, date, price, name, email, category } = req.body;
 console.log(req.payload)
     const newService = {
@@ -54,7 +52,7 @@ console.log(req.payload)
 });
 
 // GET /api/services -  Retrieves all of the services
-router.get('/users', (req, res, next) => {
+router.get('/services', (req, res, next) => {
     Service.find()
         // .populate("user")
         .then(response => {
