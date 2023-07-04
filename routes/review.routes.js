@@ -34,7 +34,7 @@ router.post("/review", (req, res, next) => {
 
 // GET /api/reviews -  Retrieves all of the reviews
 router.get('/reviews', (req, res, next) => {
-    Review.find()
+    Review.find().sort({createdAt: -1})
         .then(response => {
             res.json(response)
         })
