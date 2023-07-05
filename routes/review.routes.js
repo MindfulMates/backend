@@ -2,26 +2,32 @@ const router = require("express").Router();
 // const mongoose = require("mongoose");
 
 const Review = require("../models/Review.model");
+const Service = require("../models/Service.model");
 const User = require("../models/User.model");
 
 
 
 //  POST /api/reviews  -  Creates a new review
 router.post("/review", (req, res, next) => {
-    const { review, description, friendly } = req.body;
+    const { review, description, friendly, serviceId } = req.body;
 
     const newReview = {
         review: review,
         description: description,
         friendly: friendly,
     }
+    let reviewFromDB
 
     Review.create(newReview)
-
         .then(createdReview => {
-            User.findByIdAndUpdate({ _id: req.payload._id }, { $push: { review: createdReview._id } }, { new: true }).then((response) => {
-                res.status(201).json(response)
-            })
+            reviewFromDB = createdReview
+            return User.findByIdAndUpdate(req.payload._id, { $push: { review: reviewFromDB._id } }, { new: true })
+        })
+        .then(() => {
+            return Service.findByIdAndUpdate(serviceId, { $push: { review: reviewFromDB._id } }, { new: true })
+        })
+        .then((response) => {
+            res.status(201).json(response)
         })
         .catch(err => {
             console.log("error creating a new review", err);
@@ -34,7 +40,7 @@ router.post("/review", (req, res, next) => {
 
 // GET /api/reviews -  Retrieves all of the reviews
 router.get('/reviews', (req, res, next) => {
-    Review.find().sort({createdAt: -1})
+    Review.find().sort({ createdAt: -1 })
         .then(response => {
             res.json(response)
         })

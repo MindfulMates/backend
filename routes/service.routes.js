@@ -9,6 +9,16 @@ const { isAuthenticated } = require("../middleware/jwt.middleware");
 
 
 
+const fileUploader = require("../config/cloudinary.config");
+
+router.post("/upload", fileUploader.single("imageUrl"), (req, res, next) => {
+    // console.log("file is: ", req.file)
+    if (!req.file) {
+      next(new Error("No file uploaded!"));
+      return;
+    }    
+  res.json({ fileUrl: req.file.path });
+});
 
 // router.get("/services", (req, res) => {
 //     // finish this functionality
@@ -25,7 +35,7 @@ const { isAuthenticated } = require("../middleware/jwt.middleware");
 
 //  POST /api/newservice  -  Creates a new service
 router.post("/newservice", isAuthenticated, (req, res, next) => {
-    const { title, description, place, date, price, name, email, category } = req.body;
+    const { title, description, place, date, price, name, email, category, imageUrl } = req.body;
 console.log(req.payload)
     const newService = {
         title: title,
@@ -35,13 +45,15 @@ console.log(req.payload)
         price: price, 
         name: name,
         email: email,
-        category: category
+        category: category,
+        imageUrl: imageUrl
     }
 
-    Service.create(newService).then((createdService) =>{
-        User.findByIdAndUpdate({_id: req.payload._id}, {$push: {service: createdService._id}}, {new: true})
-        .then(response => res.status(201).json(response))
+    Service.create(newService)
+    .then((createdService) =>{
+        return User.findByIdAndUpdate({_id: req.payload._id}, {$push: {service: createdService._id}}, {new: true})
     })
+    .then(response => res.status(201).json(response))
     .catch(err => {
         console.log("error creating a new service", err);
         res.status(500).json({
@@ -82,7 +94,7 @@ router.get('/services/:serviceId', (req, res, next) => {
 
 
     Service.findById(serviceId)
-        // .populate('user')
+        .populate('review')
         .then(service => res.json(service))
         .catch(err => {
             console.log("error getting details of a service", err);
@@ -111,6 +123,7 @@ router.put('/services/:serviceId', (req, res, next) => {
         name: req.body.name,
         email: req.body.email,
         category: req.body.category,
+        imageUrl: req.body.imageUrl,
     }
 
     Service.findByIdAndUpdate(serviceId, newDetails, { new: true })

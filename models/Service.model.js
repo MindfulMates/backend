@@ -33,10 +33,13 @@ const serviceSchema = new Schema(
     email: {
       type: String,
       required: [true, "Email is required."],
-      unique: true,
       lowercase: true,
       trim: true,
     },
+    imageUrl: {
+      type: String,
+      required: [true, "Picture is required."],
+  },
     review: [{ type: Schema.Types.ObjectId, ref: 'Review' }] 
   },
   {

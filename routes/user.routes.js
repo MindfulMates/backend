@@ -8,6 +8,7 @@ const User = require("../models/User.model"); // we still need to delete later
 // GET /api/users -  Retrieves all of the users
 router.get('/users', (req, res, next) => {
     User.find()
+        .select("-password")
         .populate("reviews services")
         .then(response => {
             res.json(response)
@@ -33,6 +34,7 @@ router.get('/users/:userId', (req, res, next) => {
 
 
     User.findById(userId)
+        .select("-password")
         .populate('reviews services')
         .then(user => res.json(user))
         .catch(err => {
@@ -59,6 +61,7 @@ router.put('/users/:userId', (req, res, next) => {
     }
 
     User.findByIdAndUpdate(userId, newDetails, { new: true })
+        .select("-password")
         .then((updatedUser) => res.json(updatedUser))
         .catch(err => {
             console.log("error updating user", err);
@@ -76,10 +79,10 @@ router.delete('/users/:userId', async (req, res) => { //same route as above but 
         const user = await User.findById(userId)
 
         await Review.deleteMany({ _id: { $in: user.review } })
-        await Service.deleteMany({_id: { $in: user.service} })
+        await Service.deleteMany({ _id: { $in: user.service } })
         await User.findByIdAndDelete(userId)
 
-        return res.status(200).json({msg: "all deleted :)"})
+        return res.status(200).json({ msg: "all deleted :)" })
 
     } catch (error) {
         console.log(error)
