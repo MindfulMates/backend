@@ -1,6 +1,4 @@
 const router = require("express").Router();
-// const mongoose = require("mongoose");
-
 const Review = require("../models/Review.model");
 const Service = require("../models/Service.model");
 const User = require("../models/User.model");
@@ -38,6 +36,7 @@ router.post("/review", (req, res, next) => {
         })
 });
 
+
 // GET /api/reviews -  Retrieves all of the reviews
 router.get('/reviews', (req, res, next) => {
     Review.find().sort({ createdAt: -1 })
@@ -52,6 +51,7 @@ router.get('/reviews', (req, res, next) => {
             });
         })
 });
+
 
 //  GET /api/reviews/:reviewId  -  Get details of a specific review by id
 router.get('/reviews/:reviewId', (req, res, next) => {

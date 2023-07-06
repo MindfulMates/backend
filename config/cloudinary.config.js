@@ -13,7 +13,7 @@ const storage = new CloudinaryStorage({
   cloudinary,
   params: {
     allowed_formats: ["jpg", "png", "avif"],
-    folder: "movie-gallery" // The name of the folder in cloudinary
+    folder: "movie-gallery"
   }
 });
 

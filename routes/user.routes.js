@@ -1,9 +1,9 @@
 const router = require("express").Router();
 const mongoose = require("mongoose");
-
 const Service = require("../models/Service.model");
 const Review = require("../models/Review.model");
-const User = require("../models/User.model"); // we still need to delete later
+const User = require("../models/User.model");
+
 
 // GET /api/users -  Retrieves all of the users
 router.get('/users', (req, res, next) => {
@@ -22,6 +22,7 @@ router.get('/users', (req, res, next) => {
         })
 });
 
+
 //  GET /api/users/:userId  -  Get details of a specific users by id
 router.get('/users/:userId', (req, res, next) => {
 
@@ -31,7 +32,6 @@ router.get('/users/:userId', (req, res, next) => {
         res.status(400).json({ message: 'Specified id is not valid' });
         return;
     }
-
 
     User.findById(userId)
         .select("-password")
@@ -45,6 +45,7 @@ router.get('/users/:userId', (req, res, next) => {
             });
         })
 });
+
 
 // PUT /api/users/:userId  -  Updates a specific user by id
 router.put('/users/:userId', (req, res, next) => {
@@ -72,8 +73,8 @@ router.put('/users/:userId', (req, res, next) => {
         })
 });
 
-
-router.delete('/users/:userId', async (req, res) => { //same route as above but with async await AKA cleaner and better :)
+// DELETE
+router.delete('/users/:userId', async (req, res) => {
     try {
         const { userId } = req.params
         const user = await User.findById(userId)
