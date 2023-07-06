@@ -15,8 +15,8 @@ const serviceSchema = new Schema(
       required: [true, "Place is required."],
     },
     date: {
-      type: Date,
-      required: [true, "Date is required."],
+      type: String,
+      required: [true, "Service hours is required."],
     },
     category: {
       type: String,

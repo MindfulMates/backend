@@ -7,14 +7,14 @@ const reviewSchema = new Schema(
       type: Number,
       required: [true, "Review is required."],
       min: 1,
-      max: 10
+      max: 5
     },
     description: {
       type: String,
       required: [true, "Description is required."],
     },
     friendly: {
-      type: Boolean,
+      type: String,
       required: [true, "This field is required."],
     },
   },

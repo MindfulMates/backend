@@ -69,7 +69,7 @@ router.get('/services', (req, res, next) => {
     //             category: req.headers.category}
     // pass this one later to Service.find(filterOptions)
     Service.find().sort({createdAt: -1})
-        // .populate("user")
+        .populate("review")
         .then(response => {
             res.json(response)
         })
