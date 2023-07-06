@@ -94,7 +94,7 @@ router.get('/services/:serviceId', (req, res, next) => {
 
 
     Service.findById(serviceId)
-        .populate('review')
+        .populate({path:'review', options: {sort: {"createdAt": -1}}})
         .then(service => res.json(service))
         .catch(err => {
             console.log("error getting details of a service", err);
