@@ -4,7 +4,7 @@
 
 This repository contains the backend code for Mindful Mates, a platform that helps you find mindful services in your neighborhood. The backend is built using Express, serving as the API that handles server-side logic and communicates with the database. The frontend code interacts with this API to provide a seamless user experience. The frontend code can be found in the [frontend repository](https://github.com/MindfulMates/frontend-mm).
 
-## Instructions to Run this App on Your Computer
+## Instructions to run this app on your computer
 
 ### Installation
 
@@ -13,24 +13,18 @@ This repository contains the backend code for Mindful Mates, a platform that hel
 
 ### Dependencies
 
+Ensure that you have all the required environment variables properly configured.
 Install the required dependencies by running the following command:
-
-```shell
-npm install
-```
-
-Environment Variables
-Set up any necessary environment variables. Ensure that you have all the required environment variables properly configured. We used:
 
 ```shell
 npm install axios@1.4.0 bootstrap@5.3.0 react@18.2.0 react-bootstrap@2.8.0 react-dom@18.2.0 react-icons@4.10.1 react-router-dom@6.14.0 react-scripts@5.0.1 react-star-rate@0.2.0
 ```
 
-Run the Application
+### Run the application
 Start the backend server by running the following command:
 
 ```shell
-npm start
+npm run start
 ```
 This command will start the backend server, allowing it to handle incoming requests.
 
