@@ -17,7 +17,7 @@ Ensure that you have all the required environment variables properly configured.
 Install the required dependencies by running the following command:
 
 ```shell
-npm install axios@1.4.0 bootstrap@5.3.0 react@18.2.0 react-bootstrap@2.8.0 react-dom@18.2.0 react-icons@4.10.1 react-router-dom@6.14.0 react-scripts@5.0.1 react-star-rate@0.2.0
+npm install axios@1.4.0 bcrypt@5.1.0 cloudinary@1.37.3 cookie-parser@1.4.6 cors@2.8.5 dayjs@1.11.8 dotenv@16.3.1 express@4.18.2 express-jwt@8.4.1 jsonwebtoken@9.0.0 mongoose@7.3.1 morgan@1.10.0 multer@1.4.5-lts.1 multer-storage-cloudinary@4.0.0 parser@0.1.4
 ```
 
 ### Run the application
