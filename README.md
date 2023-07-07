@@ -24,19 +24,19 @@ npm install axios@1.4.0 bootstrap@5.3.0 react@18.2.0 react-bootstrap@2.8.0 react
 Start the backend server by running the following command:
 
 ```shell
-npm run start
+npm run dev
 ```
 This command will start the backend server, allowing it to handle incoming requests.
 
 ### Demo
-The backend server cannot be accessed directly in the browser. It serves as the underlying infrastructure for the Mindful Mates platform.
+The backend server cannot be accessed directly in the browser. It serves as the underlying infrastructure for the Mindful Mates platform. Feel free to test the API and interact with the deployed application.
 
 Please refer to the frontend repository's documentation for information on setting up and running the frontend part of the project.
 
 https://mindfulmates.netlify.app/
+
 https://mindfulmates.adaptable.app/
 
-Feel free to test the API and interact with the deployed application.
 
 Cheers
 Nuno & Carolin
